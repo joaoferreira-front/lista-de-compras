@@ -1,82 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('shopping-list');
   const totalDisplay = document.getElementById('total');
+  const form = document.getElementById('add-item-form');
+  const inputName = document.getElementById('item-name-input');
 
-  const itens = [
-    "Arroz (2)",
-    "Açúcar (fardo)",
-    "Feijão (2)",
-    "Óleo (fardo)",
-    "Leite",
-    "Leite 0 lactose",
-    "Cuscuz",
-    "Tapioca",
-    "Ovo",
-    "Macarrão",
-    "Massa de tomate",
-    "Ketchup",
-    "Maionese",
-    "Toddy",
-    "Sabão em pó",
-    "Detergente",
-    "Candidato",
-    "Removedor",
-    "Amaciante",
-    "Saco de lixo"
-  ];
+  let items = JSON.parse(localStorage.getItem('shoppingList')) || [];
 
-  itens.forEach(nome => adicionarItem(nome));
+  function salvarLista() {
+    localStorage.setItem('shoppingList', JSON.stringify(items));
+  }
 
-  function adicionarItem(nome) {
+  function updateTotal() {
+    let total = 0;
+    items.forEach(item => {
+      if (item.checked) {
+        const price = parseFloat(item.price) || 0;
+        const quantity = parseInt(item.quantity) || 1;
+        total += price * quantity;
+      }
+    });
+    totalDisplay.textContent = `Total: R$ ${total.toFixed(2)}`;
+  }
+
+  function adicionarItemNaTela(itemData) {
     const li = document.createElement('li');
     li.className = 'shopping-item';
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.className = 'item-checkbox';
+    checkbox.checked = itemData.checked;
 
     const spanName = document.createElement('span');
     spanName.className = 'item-name';
-    spanName.textContent = nome;
+    spanName.textContent = itemData.name;
 
     const inputQty = document.createElement('input');
     inputQty.type = 'number';
-    inputQty.className = 'item-qty';
+    inputQty.value = itemData.quantity;
     inputQty.min = "1";
-    inputQty.step = "1";
-    inputQty.value = "1";
 
     const inputPrice = document.createElement('input');
     inputPrice.type = 'number';
-    inputPrice.className = 'item-price';
-    inputPrice.min = "0";
+    inputPrice.value = itemData.price;
     inputPrice.step = "0.01";
-    inputPrice.placeholder = "R$ 0,00";
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'remove-btn';
+    removeBtn.textContent = "🗑️";
 
     li.appendChild(checkbox);
     li.appendChild(spanName);
     li.appendChild(inputQty);
     li.appendChild(inputPrice);
+    li.appendChild(removeBtn);
     list.appendChild(li);
 
-    checkbox.addEventListener('change', updateTotal);
-    inputPrice.addEventListener('input', updateTotal);
-    inputQty.addEventListener('input', updateTotal);
-  }
+    function updateData() {
+      itemData.checked = checkbox.checked;
+      itemData.price = inputPrice.value;
+      itemData.quantity = inputQty.value;
+      salvarLista();
+      updateTotal();
+    }
 
-  function updateTotal() {
-    let total = 0;
-    document.querySelectorAll('.shopping-item').forEach(item => {
-      const checkbox = item.querySelector('.item-checkbox');
-      const priceInput = item.querySelector('.item-price');
-      const qtyInput = item.querySelector('.item-qty');
-      const price = parseFloat(priceInput.value) || 0;
-      const quantity = parseInt(qtyInput.value) || 1;
+    checkbox.addEventListener('change', updateData);
+    inputQty.addEventListener('input', updateData);
+    inputPrice.addEventListener('input', updateData);
 
-      if (checkbox.checked) {
-        total += price * quantity;
-      }
+    removeBtn.addEventListener('click', () => {
+      items = items.filter(i => i !== itemData);
+      salvarLista();
+      renderLista();
     });
-    totalDisplay.textContent = ` Total: R$ ${total.toFixed(2)}`;
   }
+
+  function renderLista() {
+    list.innerHTML = '';
+    items.forEach(item => adicionarItemNaTela(item));
+    updateTotal();
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = inputName.value.trim();
+    if (name !== "") {
+      const newItem = { name, checked: false, price: "", quantity: "1" };
+      items.push(newItem);
+      salvarLista();
+      renderLista();
+      inputName.value = "";
+    }
+  });
+
+  renderLista();
 });
