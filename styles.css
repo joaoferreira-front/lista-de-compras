@@ -13,7 +13,8 @@
     height: 100vh;
     padding: 20px;
     color: #333;
-    overflow: hidden; /* Impede a rolagem */
+    overflow-x: hidden; /* Garante que a rolagem horizontal não aconteça */
+    overflow-y: auto; /* Permite rolagem vertical */
   }
   
   main {
@@ -24,7 +25,7 @@
     max-width: 450px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
-    overflow: hidden; /* Impede a rolagem no main */
+    overflow: hidden; /* Impede rolagem */
   }
   
   header h1 {
@@ -163,12 +164,13 @@
     color: #333;
   }
   
-  /* Media Queries para tornar o layout mais responsivo em dispositivos móveis */
+  /* Media Queries para dispositivos móveis */
   @media (max-width: 768px) {
     main {
       padding: 20px;
       width: 100%;
       max-width: 90%;
+      overflow: visible; /* Permite que o conteúdo ajuste no mobile */
     }
   
     header h1 {
