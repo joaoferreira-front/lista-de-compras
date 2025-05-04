@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function adicionarItemNaTela(itemData) {
     const li = document.createElement('li');
     li.className = 'shopping-item';
+    if (itemData.checked) li.classList.add('checked');
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -34,15 +35,27 @@ document.addEventListener('DOMContentLoaded', () => {
     spanName.className = 'item-name';
     spanName.textContent = itemData.name;
 
+    const groupQty = document.createElement('div');
+    groupQty.className = 'input-label-group';
+    const labelQty = document.createElement('label');
+    labelQty.textContent = 'Quantidade';
     const inputQty = document.createElement('input');
     inputQty.type = 'number';
     inputQty.value = itemData.quantity;
     inputQty.min = "1";
+    groupQty.appendChild(labelQty);
+    groupQty.appendChild(inputQty);
 
+    const groupPrice = document.createElement('div');
+    groupPrice.className = 'input-label-group';
+    const labelPrice = document.createElement('label');
+    labelPrice.textContent = 'Valor (R$)';
     const inputPrice = document.createElement('input');
     inputPrice.type = 'number';
     inputPrice.value = itemData.price;
     inputPrice.step = "0.01";
+    groupPrice.appendChild(labelPrice);
+    groupPrice.appendChild(inputPrice);
 
     const removeBtn = document.createElement('button');
     removeBtn.className = 'remove-btn';
@@ -50,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     li.appendChild(checkbox);
     li.appendChild(spanName);
-    li.appendChild(inputQty);
-    li.appendChild(inputPrice);
+    li.appendChild(groupQty);
+    li.appendChild(groupPrice);
     li.appendChild(removeBtn);
     list.appendChild(li);
 
@@ -61,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       itemData.quantity = inputQty.value;
       salvarLista();
       updateTotal();
+      li.classList.toggle('checked', itemData.checked);
     }
 
     checkbox.addEventListener('change', updateData);
