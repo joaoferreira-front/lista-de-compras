@@ -7,12 +7,9 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(to right, #9c3ab4b0, #8005b1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* <- corrigido aqui */
+  min-height: 100vh; /* Permite crescimento */
   padding: 20px;
-  color: #333; 
+  color: #333;
 }
 
 main {
@@ -22,7 +19,9 @@ main {
   width: 100%;
   max-width: 450px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-  text-align: center; /* Impede rolagem */
+  text-align: center;
+  margin: 0 auto; /* Centraliza horizontalmente */
+  margin-bottom: 40px; /* Espaço para rolagem */
 }
 
 header h1 {
@@ -98,19 +97,19 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  background: #f6ebff; /* Cor de fundo lilás suave */
+  background: #f6ebff;
   border: 2px solid transparent;
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
   align-items: center;
-  box-shadow: 0 6px 18px rgba(128, 5, 177, 0.25); /* Box-shadow roxo suave */
+  box-shadow: 0 6px 18px rgba(128, 5, 177, 0.25);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .shopping-item.checked {
-  border-color: #8005b1; /* Borda roxa quando o item estiver checado */
-  box-shadow: 0 8px 22px rgba(128, 5, 177, 0.4); /* Mais destaque no item checado */
+  border-color: #8005b1;
+  box-shadow: 0 8px 22px rgba(128, 5, 177, 0.4);
 }
 
 .shopping-item .item-name {
@@ -169,13 +168,12 @@ button:hover {
   color: #333;
 }
 
-/* Media Queries para dispositivos móveis */
+/* Media Queries */
 @media (max-width: 768px) {
   main {
     padding: 20px;
     width: 100%;
     max-width: 90%;
-    overflow: visible; /* Permite que o conteúdo ajuste no mobile */
   }
 
   header h1 {
