@@ -7,9 +7,10 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(to right, #9c3ab4b0, #8005b1);
-  min-height: 100vh; /* Permite crescimento */
+  min-height: 100vh; /* Permite que o conteúdo cresça */
   padding: 20px;
   color: #333;
+  overflow-y: auto; /* Garante a barra de rolagem */
 }
 
 main {
