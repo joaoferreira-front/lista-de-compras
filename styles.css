@@ -12,8 +12,7 @@ body {
   align-items: center;
   height: 100vh;
   padding: 20px;
-  color: #333;
-  overflow-x: hidden; /* Garante que a rolagem horizontal não aconteça */
+  color: #333; /* Garante que a rolagem horizontal não aconteça */
   overflow-y: auto; /* Permite rolagem vertical */
 }
 
